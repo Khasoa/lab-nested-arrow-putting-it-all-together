@@ -5,28 +5,25 @@ let attemptCount = 0;
 
 const attemptLogin = (passwordAttempt) => {
 
-//first, check if already locked
-if (attemptCount>=3) {
-  console.log("Status: Account locked")
-  return "Account locked due to too many failed login attempts";
-}
-//When correct password is used
-if(passwordAttempt===userInfo.password) { 
+  //Allow correct Login immediately or after failed attempts
+if(passwordAttempt===userInfo.password && attemptCount<=3) { 
   console.log("Status: Password matched");
   return "Login Successful";
 }
-//Increase attempts when wrong passwords are used
+//if wrong password is used, increase attempt count
+if (passwordAttempt !== userInfo.password) {
 attemptCount++;
-if (passwordAttempt!==userInfo.password){ 
-  console.log("Status: Password did not match");
-  return "Attempt " + attemptCount + ": Login failed";
 
+//lock account after 3 failed attempts
+if(attemptCount >3){
+  return "Account locked due to too many failed login attempts"
 }
-
+return "Attempt " + attemptCount + ": Login failed"
+}
 
 };
 
-return attemptLogin;
+return attemptLogin
 
 }
 
